@@ -1,9 +1,10 @@
 local Player = require("player")
+local Window = require("window")
 
 -- called on initial load
 function love.load()
-	-- ...
-	player1 = Player.new(100, 200)
+	window = Window.new(900, 600)
+	player1 = Player.new(0, window.h / 2)
 end
 
 -- called on window close
@@ -38,7 +39,21 @@ end
 
 -- called when a key is pressed
 function love.keypressed(key)
-	-- ...
+	if key == "q" then
+		love.event.quit()
+	end
+
+	if key == "w" then
+		player1:setDirection("up")
+	end
+
+	if key == "d" then
+		player1:setDirection("down")
+	end
+
+	if key ~= "d" and key ~= "w" then
+		player1:setDirection("none")
+	end
 end
 
 -- called when a key is released
