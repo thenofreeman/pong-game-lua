@@ -47,18 +47,14 @@ function love.keypressed(key)
 		player1:setDirection("up")
 	end
 
-	if key == "d" then
+	if key == "s" then
 		player1:setDirection("down")
-	end
-
-	if key ~= "d" and key ~= "w" then
-		player1:setDirection("none")
 	end
 end
 
 -- called when a key is released
 function love.keyreleased(key)
-	-- ...
+	player1:setDirection("none")
 end
 
 -- called when user clicks on or off the window
