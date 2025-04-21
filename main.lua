@@ -1,6 +1,9 @@
+local Player = require("player")
+
 -- called on initial load
 function love.load()
 	-- ...
+	player1 = Player.new(100, 200)
 end
 
 -- called on window close
@@ -14,11 +17,13 @@ function love.update(dt)
 	if isPaused then
 		return
 	end
+
+	player1:update(dt)
 end
 
 -- where the rendering happens
 function love.draw()
-	love.graphics.print("Hello, World!", 400, 300)
+	player1:draw()
 end
 
 -- called when mouse button is pressed
