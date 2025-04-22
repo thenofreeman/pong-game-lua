@@ -7,7 +7,7 @@ function Player.new(x, y)
 	player.pos = { x = x, y = y }
 	player.dim = { w = 15, h = 100 }
 
-	player.speed = 120
+	player.speed = 200
 	player.dir = "none"
 
 	return player
