@@ -1,13 +1,20 @@
 local Player = require("player")
-local Window = require("window")
+
+GAME = {
+	window = {
+		w = 900,
+		h = 600,
+	},
+	players = {
+		Player.new(15, 600 / 2),
+		Player.new(900 - 30, 600 / 2),
+	},
+	isPaused = false,
+}
 
 -- called on initial load
 function love.load()
-	window = Window.new(900, 600)
-	player1 = Player.new(15, window.h / 2)
-	player2 = Player.new(window.w - 30, window.h / 2)
-
-	love.window.setMode(window.w, window.h)
+	love.window.setMode(GAME.window.w, GAME.window.h)
 end
 
 -- called on window close
@@ -18,22 +25,22 @@ end
 -- update game logic
 -- dt = delta time; time in seconds since last call
 function love.update(dt)
-	if isPaused then
+	if GAME.isPaused then
 		return
 	end
 
-	player1:update(dt)
-	player2:update(dt)
+	GAME.players[1]:update(dt)
+	GAME.players[2]:update(dt)
 end
 
 -- where the rendering happens
 function love.draw()
-	if isPaused then
+	if GAME.isPaused then
 		return
 	end
 
-	player1:draw()
-	player2:draw()
+	GAME.players[1]:draw()
+	GAME.players[2]:draw()
 end
 
 -- called when a key is pressed
@@ -43,30 +50,30 @@ function love.keypressed(key)
 	end
 
 	if key == "w" then
-		player1:setDirection("up")
+		GAME.players[1]:setDirection("up")
 	elseif key == "s" then
-		player1:setDirection("down")
+		GAME.players[1]:setDirection("down")
 	end
 
 	if key == "up" then
-		player2:setDirection("up")
+		GAME.players[2]:setDirection("up")
 	elseif key == "down" then
-		player2:setDirection("down")
+		GAME.players[2]:setDirection("down")
 	end
 end
 
 -- called when a key is released
-function love.keyreleased(key)
+function love.keyreleased()
 	if not love.keyboard.isDown("w") and not love.keyboard.isDown("s") then
-		player1:setDirection("none")
+		GAME.players[1]:setDirection("none")
 	end
 
 	if not love.keyboard.isDown("up") and not love.keyboard.isDown("down") then
-		player2:setDirection("none")
+		GAME.players[2]:setDirection("none")
 	end
 end
 
 -- called when user clicks on or off the window
 function love.focus(focused)
-	isPaused = not focused
+	GAME.isPaused = not focused
 end
