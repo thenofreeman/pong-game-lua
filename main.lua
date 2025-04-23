@@ -6,6 +6,12 @@ GAME = {
 		w = 900,
 		h = 600,
 	},
+	bounds = {
+		left = 0,
+		right = 900,
+		top = 0,
+		bottom = 600,
+	},
 	players = {
 		Player.new(15, 600 / 2),
 		Player.new(900 - 30, 600 / 2),
@@ -30,6 +36,10 @@ function love.update(dt)
 	if GAME.isPaused then
 		return
 	end
+
+	-- for player in GAME.players do
+	-- 	player:update(dt)
+	-- end
 
 	GAME.players[1]:update(dt)
 	GAME.players[2]:update(dt)

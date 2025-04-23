@@ -14,12 +14,19 @@ function Player.new(x, y)
 end
 
 function Player:update(dt)
-	if self.dir == "down" then
-		self.pos.y = self.pos.y + self.speed * dt
-	end
+	local player_top_edge = self.pos.y
+	local player_bottom_edge = self.pos.y + self.dim.h
 
 	if self.dir == "up" then
-		self.pos.y = self.pos.y - self.speed * dt
+		if player_top_edge > GAME.bounds.top then
+			self.pos.y = self.pos.y - self.speed * dt
+		end
+	end
+
+	if self.dir == "down" then
+		if player_bottom_edge < GAME.bounds.bottom then
+			self.pos.y = self.pos.y + self.speed * dt
+		end
 	end
 end
 
