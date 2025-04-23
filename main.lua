@@ -1,4 +1,5 @@
 local Player = require("player")
+local Ball = require("ball")
 
 GAME = {
 	window = {
@@ -9,6 +10,7 @@ GAME = {
 		Player.new(15, 600 / 2),
 		Player.new(900 - 30, 600 / 2),
 	},
+	ball = Ball.new(450, 300),
 	isPaused = false,
 }
 
@@ -31,6 +33,7 @@ function love.update(dt)
 
 	GAME.players[1]:update(dt)
 	GAME.players[2]:update(dt)
+	GAME.ball:update(dt)
 end
 
 -- where the rendering happens
@@ -41,6 +44,7 @@ function love.draw()
 
 	GAME.players[1]:draw()
 	GAME.players[2]:draw()
+	GAME.ball:draw()
 end
 
 -- called when a key is pressed
