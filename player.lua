@@ -7,6 +7,13 @@ function Player.new(x, y)
 	player.pos = { x = x, y = y }
 	player.dim = { w = 15, h = 100 }
 
+	player.edge = {
+		left = player.pos.x,
+		right = player.pos.x + player.dim.w,
+		top = player.pos.y,
+		bottom = player.pos.y + player.dim.h,
+	}
+
 	player.speed = 200
 	player.dir = "none"
 
@@ -14,18 +21,17 @@ function Player.new(x, y)
 end
 
 function Player:update(dt)
-	local player_top_edge = self.pos.y
-	local player_bottom_edge = self.pos.y + self.dim.h
-
 	if self.dir == "up" then
-		if player_top_edge > GAME.bounds.top then
+		if self.edge.top >= GAME.bounds.top then
 			self.pos.y = self.pos.y - self.speed * dt
+			self.edge.top = self.pos.y
 		end
 	end
 
 	if self.dir == "down" then
-		if player_bottom_edge < GAME.bounds.bottom then
+		if self.edge.bottom <= GAME.bounds.bottom then
 			self.pos.y = self.pos.y + self.speed * dt
+			self.edge.bottom = self.pos.y + self.dim.h
 		end
 	end
 end
