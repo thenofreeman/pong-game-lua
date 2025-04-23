@@ -30,4 +30,16 @@ function Ball:draw()
 	love.graphics.circle("fill", self.pos.x, self.pos.y, self.diam)
 end
 
+function Ball:intersects(player)
+	if self.pos.x <= player.edge.right and self.pos.x >= player.edge.left then
+		return true
+	end
+
+	if self.pos.x + self.diam >= player.edge.left and self.pos.x + self.diam <= player.edge.right then
+		return true
+	end
+
+	return false
+end
+
 return Ball

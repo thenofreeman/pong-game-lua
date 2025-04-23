@@ -37,9 +37,15 @@ function love.update(dt)
 		return
 	end
 
-	-- for player in GAME.players do
-	-- 	player:update(dt)
-	-- end
+	for _, player in pairs(GAME.players) do
+		if GAME.ball:intersects(player) then
+			if GAME.ball.pos.y >= player.edge.top and GAME.ball.pos.y + GAME.ball.diam <= player.edge.bottom then
+				GAME.ball.velocity.x = GAME.ball.velocity.x * -1
+			else
+				GAME.ball.velocity.y = GAME.ball.velocity.y * -1
+			end
+		end
+	end
 
 	GAME.players[1]:update(dt)
 	GAME.players[2]:update(dt)
