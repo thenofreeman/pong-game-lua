@@ -1,27 +1,36 @@
 local Player = require("player")
 local Ball = require("ball")
 
-GAME = {
-	window = {
-		w = 900,
-		h = 600,
-	},
-	bounds = {
-		left = 0,
-		right = 900,
-		top = 0,
-		bottom = 600,
-	},
-	players = {
-		Player.new(15, 600 / 2),
-		Player.new(900 - 30, 600 / 2),
-	},
-	ball = Ball.new(450, 300),
-	isPaused = false,
-}
-
 function love.load()
+	GAME = {
+		window = {
+			w = 900,
+			h = 600,
+		},
+		bounds = {
+			left = 0,
+			right = 900,
+			top = 0,
+			bottom = 600,
+		},
+		isPaused = false,
+		scores = { 0, 0 },
+	}
+
+	GAME.players = {
+		Player.new(15, GAME.window.h / 2),
+		Player.new(GAME.window.w - 30, GAME.window.h / 2),
+	}
+
+	GAME.ball = Ball.new()
+
 	love.window.setMode(GAME.window.w, GAME.window.h)
+
+	local font_loaded, font = pcall(love.graphics.newFont, "block.ttf", 32)
+
+	if font_loaded then
+		love.graphics.setFont(font)
+	end
 end
 
 function love.quit()
@@ -51,9 +60,24 @@ function love.update(dt)
 			end
 		end
 	end
+
+	if GAME.ball.pos.x < GAME.bounds.left - GAME.ball.diam then
+		GAME.scores[2] = GAME.scores[2] + 1
+		GAME.ball = Ball.new()
+	end
+
+	if GAME.ball.pos.x > GAME.bounds.right then
+		GAME.scores[1] = GAME.scores[1] + 1
+		GAME.ball = Ball.new()
+	end
 end
 
 function love.draw()
+	local font = love.graphics.getFont()
+
+	love.graphics.print(GAME.scores[1], 25, 25)
+	love.graphics.print(GAME.scores[2], GAME.window.w - font:getWidth(GAME.scores[2]) - 25, 25)
+
 	if GAME.isPaused then
 		return
 	end
