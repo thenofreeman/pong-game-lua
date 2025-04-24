@@ -45,8 +45,4 @@ function Player:draw()
 	love.graphics.rectangle("fill", self.pos.x, self.pos.y, self.dim.w, self.dim.h)
 end
 
-function Player:setDirection(dir)
-	self.dir = dir
-end
-
 return Player

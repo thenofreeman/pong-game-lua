@@ -150,24 +150,24 @@ function love.keypressed(key)
 	end
 
 	if key == "w" then
-		GAME.players[1]:setDirection("up")
+		GAME.players[1].dir = "up"
 	elseif key == "s" then
-		GAME.players[1]:setDirection("down")
+		GAME.players[1].dir = "down"
 	end
 
 	if key == "up" then
-		GAME.players[2]:setDirection("up")
+		GAME.players[2].dir = "up"
 	elseif key == "down" then
-		GAME.players[2]:setDirection("down")
+		GAME.players[2].dir = "down"
 	end
 end
 
 function love.keyreleased()
 	if not love.keyboard.isDown("w") and not love.keyboard.isDown("s") then
-		GAME.players[1]:setDirection("none")
+		GAME.players[1].dir = "none"
 	end
 
 	if not love.keyboard.isDown("up") and not love.keyboard.isDown("down") then
-		GAME.players[2]:setDirection("none")
+		GAME.players[2].dir = "none"
 	end
 end
