@@ -50,6 +50,12 @@ function love.update(dt)
 	GAME.players[2]:update(dt)
 	GAME.ball:update(dt)
 
+	if GAME.scores[1] == 7 or GAME.scores[2] == 7 then
+		GAME.state = "gameover"
+
+		return
+	end
+
 	for _, player in pairs(GAME.players) do
 		local xIntersects = GAME.ball.pos.x + GAME.ball.diam > player.edge.left and GAME.ball.pos.x < player.edge.right
 		local yIntersects = GAME.ball.pos.y + GAME.ball.diam > player.edge.top and GAME.ball.pos.y < player.edge.bottom
