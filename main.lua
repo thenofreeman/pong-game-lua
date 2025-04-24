@@ -13,7 +13,7 @@ function love.load()
 			top = 0,
 			bottom = 600,
 		},
-		isPaused = false,
+		state = "paused",
 		scores = { 0, 0 },
 	}
 
@@ -38,7 +38,11 @@ function love.quit()
 end
 
 function love.update(dt)
-	if GAME.isPaused then
+	if GAME.state == "paused" then
+		return
+	end
+
+	if GAME.state == "gameover" then
 		return
 	end
 
@@ -75,6 +79,42 @@ end
 function love.draw()
 	local font = love.graphics.getFont()
 
+	if GAME.state == "paused" then
+		local pausedString = "Paused"
+		local pausedStringPos = {
+			x = GAME.window.w / 2 - font:getWidth(pausedString) / 2,
+			y = GAME.window.h / 2 - font:getHeight(pausedString),
+		}
+		love.graphics.print(pausedString, pausedStringPos.x, pausedStringPos.y)
+
+		local playString = "Press SPACE to play."
+		local playStringPos = {
+			x = GAME.window.w / 2 - font:getWidth(playString) / 2,
+			y = GAME.window.h / 2 + font:getHeight(playString),
+		}
+		love.graphics.print(playString, playStringPos.x, playStringPos.y)
+
+		return
+	elseif GAME.state == "gameover" then
+		local winner = GAME.scores[1] > GAME.scores[2] and "1" or "2"
+
+		local winnerString = "Player " .. winner .. "wins!"
+		local winnerStringPos = {
+			x = GAME.window.w / 2 - font:getWidth(winnerString) / 2,
+			y = GAME.window.h / 2 - font:getHeight(winnerString),
+		}
+		love.graphics.print(winnerString, winnerStringPos.x, winnerStringPos.y)
+
+		local restartString = "Press SPACE to restart."
+		local restartStringPos = {
+			x = GAME.window.w / 2 - font:getWidth(winnerString),
+			y = GAME.window.h / 2 + font:getHeight(winnerString) / 2,
+		}
+		love.graphics.print(restartString, restartStringPos.x, restartStringPos.y)
+
+		return
+	end
+
 	love.graphics.print(GAME.scores[1], 25, 25)
 	love.graphics.print(GAME.scores[2], GAME.window.w - font:getWidth(GAME.scores[2]) - 25, 25)
 
@@ -90,6 +130,21 @@ end
 function love.keypressed(key)
 	if key == "q" then
 		love.event.quit()
+	end
+
+	if GAME.state == "paused" then
+		if key == "space" then
+			GAME.state = "playing"
+		end
+	end
+
+	if GAME.state == "gameover" then
+		if key == "space" then
+			GAME.state = "playing"
+			GAME.scores[1] = 0
+			GAME.scores[2] = 0
+			GAME.ball = Ball.new()
+		end
 	end
 
 	if key == "w" then
@@ -113,8 +168,4 @@ function love.keyreleased()
 	if not love.keyboard.isDown("up") and not love.keyboard.isDown("down") then
 		GAME.players[2]:setDirection("none")
 	end
-end
-
-function love.focus(focused)
-	GAME.isPaused = not focused
 end
