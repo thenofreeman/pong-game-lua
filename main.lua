@@ -33,10 +33,6 @@ function love.load()
 	end
 end
 
-function love.quit()
-	-- ...
-end
-
 function love.update(dt)
 	if GAME.state == "paused" then
 		return
