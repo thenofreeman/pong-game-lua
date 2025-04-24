@@ -12,10 +12,9 @@ function Ball.new()
 
 	ball.speed = 400
 	ball.velocity = {
-		x = 1,
-		y = 1,
+		x = (x % 2 == 0) and 1 or -1,
+		y = (y % 2 == 0) and 1 or -1,
 	}
-	ball.dir = "none"
 
 	return ball
 end
