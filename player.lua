@@ -22,17 +22,22 @@ end
 
 function Player:update(dt)
 	if self.dir == "up" then
-		if self.edge.top >= GAME.bounds.top then
-			self.pos.y = self.pos.y - self.speed * dt
-			self.edge.top = self.pos.y
-		end
+		self.pos.y = self.pos.y - self.speed * dt
 	end
 
 	if self.dir == "down" then
-		if self.edge.bottom <= GAME.bounds.bottom then
-			self.pos.y = self.pos.y + self.speed * dt
-			self.edge.bottom = self.pos.y + self.dim.h
-		end
+		self.pos.y = self.pos.y + self.speed * dt
+	end
+
+	self.edge.top = self.pos.y
+	self.edge.bottom = self.pos.y + self.dim.h
+
+	if self.edge.top < GAME.bounds.top then
+		self.pos.y = GAME.bounds.top
+	end
+
+	if self.edge.bottom > GAME.bounds.bottom then
+		self.pos.y = GAME.bounds.bottom - self.dim.h
 	end
 end
 

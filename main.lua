@@ -20,39 +20,39 @@ GAME = {
 	isPaused = false,
 }
 
--- called on initial load
 function love.load()
 	love.window.setMode(GAME.window.w, GAME.window.h)
 end
 
--- called on window close
 function love.quit()
 	-- ...
 end
 
--- update game logic
--- dt = delta time; time in seconds since last call
 function love.update(dt)
 	if GAME.isPaused then
 		return
 	end
 
-	for _, player in pairs(GAME.players) do
-		if GAME.ball:intersects(player) then
-			if GAME.ball.pos.y >= player.edge.top and GAME.ball.pos.y + GAME.ball.diam <= player.edge.bottom then
-				GAME.ball.velocity.x = GAME.ball.velocity.x * -1
-			else
-				GAME.ball.velocity.y = GAME.ball.velocity.y * -1
-			end
-		end
-	end
-
 	GAME.players[1]:update(dt)
 	GAME.players[2]:update(dt)
 	GAME.ball:update(dt)
+
+	for _, player in pairs(GAME.players) do
+		local xIntersects = GAME.ball.pos.x + GAME.ball.diam > player.edge.left and GAME.ball.pos.x < player.edge.right
+		local yIntersects = GAME.ball.pos.y + GAME.ball.diam > player.edge.top and GAME.ball.pos.y < player.edge.bottom
+
+		if xIntersects and yIntersects then
+			GAME.ball.velocity.x = GAME.ball.velocity.x * -1
+
+			if GAME.ball.velocity.x > 0 then
+				GAME.ball.pos.x = player.edge.right
+			else
+				GAME.ball.pos.x = player.edge.left - GAME.ball.diam
+			end
+		end
+	end
 end
 
--- where the rendering happens
 function love.draw()
 	if GAME.isPaused then
 		return
@@ -63,7 +63,6 @@ function love.draw()
 	GAME.ball:draw()
 end
 
--- called when a key is pressed
 function love.keypressed(key)
 	if key == "q" then
 		love.event.quit()
@@ -82,7 +81,6 @@ function love.keypressed(key)
 	end
 end
 
--- called when a key is released
 function love.keyreleased()
 	if not love.keyboard.isDown("w") and not love.keyboard.isDown("s") then
 		GAME.players[1]:setDirection("none")
@@ -93,7 +91,6 @@ function love.keyreleased()
 	end
 end
 
--- called when user clicks on or off the window
 function love.focus(focused)
 	GAME.isPaused = not focused
 end
