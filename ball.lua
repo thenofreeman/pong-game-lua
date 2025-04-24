@@ -10,7 +10,7 @@ function Ball.new()
 	ball.pos = { x = x, y = y }
 	ball.diam = 10
 
-	ball.speed = 200
+	ball.speed = 400
 	ball.velocity = {
 		x = 1,
 		y = 1,

@@ -14,7 +14,7 @@ function Player.new(x, y)
 		bottom = player.pos.y + player.dim.h,
 	}
 
-	player.speed = 200
+	player.speed = 400
 	player.dir = "none"
 
 	return player
