@@ -13,13 +13,17 @@ function love.load()
 			top = 0,
 			bottom = 600,
 		},
+		paddle = {
+			w = 15,
+			l = 100,
+		},
 		state = "paused",
 		scores = { 0, 0 },
 	}
 
 	GAME.players = {
-		Player.new(15, GAME.window.h / 2),
-		Player.new(GAME.window.w - 30, GAME.window.h / 2),
+		Player.new(GAME.paddle.w, GAME.window.h / 2),
+		Player.new(GAME.window.w - 2 * GAME.paddle.w, GAME.window.h / 2),
 	}
 
 	GAME.ball = Ball.new()
@@ -150,24 +154,24 @@ function love.keypressed(key)
 	end
 
 	if key == "w" then
-		GAME.players[1].dir = "up"
+		GAME.players[1].velocity = -1
 	elseif key == "s" then
-		GAME.players[1].dir = "down"
+		GAME.players[1].velocity = 1
 	end
 
 	if key == "up" then
-		GAME.players[2].dir = "up"
+		GAME.players[2].velocity = -1
 	elseif key == "down" then
-		GAME.players[2].dir = "down"
+		GAME.players[2].velocity = 1
 	end
 end
 
 function love.keyreleased()
 	if not love.keyboard.isDown("w") and not love.keyboard.isDown("s") then
-		GAME.players[1].dir = "none"
+		GAME.players[1].velocity = 0
 	end
 
 	if not love.keyboard.isDown("up") and not love.keyboard.isDown("down") then
-		GAME.players[2].dir = "none"
+		GAME.players[2].velocity = 0
 	end
 end

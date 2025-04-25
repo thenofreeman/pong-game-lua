@@ -4,16 +4,19 @@ Ball.__index = Ball
 function Ball.new()
 	local ball = setmetatable({}, Ball)
 
-	local x = love.math.random(GAME.window.w / 3) + GAME.window.w / 3
-	local y = love.math.random(GAME.window.h / 2) + GAME.window.h / 4
+	local xPos = love.math.random(GAME.window.w / 3) + GAME.window.w / 3
+	local yPos = love.math.random(GAME.window.h / 2) + GAME.window.h / 4
 
-	ball.pos = { x = x, y = y }
+	ball.pos = {
+		x = xPos,
+		y = yPos,
+	}
 	ball.diam = 10
 
 	ball.speed = 400
 	ball.velocity = {
-		x = (x % 2 == 0) and 1 or -1,
-		y = (y % 2 == 0) and 1 or -1,
+		x = (xPos % 2 == 0) and 1 or -1,
+		y = (yPos % 2 == 0) and 1 or -1,
 	}
 
 	return ball
